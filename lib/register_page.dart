@@ -70,7 +70,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 'Daftar Akun Baru',
                 style: TextStyle(
                   fontSize: 24.0,
-                  color: Color(0xFF154360),
+                  color: Color.fromRGBO(255, 255, 255, 1),
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,

@@ -66,7 +66,7 @@ class _UserPageState extends State<UserPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('User Page'),
-        backgroundColor: Colors.blue,
+        backgroundColor: Color.fromRGBO(220, 247, 250, 1),
       ),
       drawer: Drawer(
         child: ListView(
@@ -74,7 +74,7 @@ class _UserPageState extends State<UserPage> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: const Color.fromARGB(169, 33, 149, 243),
               ),
               child: Text(
                 'Menu',

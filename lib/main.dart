@@ -1,12 +1,13 @@
 // main.dart
 
+import 'package:Pemesanan_Ruang/splash_screen.dart';
+import 'package:Pemesanan_Ruang/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'admin_page.dart';
 import 'login_page.dart';
 import 'register_page.dart';
-import 'user_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,16 +23,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Aplikasi Pemesanan Ruang Studi',
       theme: ThemeData(
-        primaryColor: Colors.orange,
-        hintColor: Colors.deepOrange,
-        scaffoldBackgroundColor: Color.fromARGB(255, 23, 90, 145),
+        primaryColor: const Color.fromRGBO(220, 247, 250, 1),
+        hintColor: Color.fromRGBO(254, 254, 254, 1),
+        scaffoldBackgroundColor: Color.fromRGBO(83, 215, 232, 1),
         fontFamily: 'Roboto',
       ),
       home: LoginPage(),
       routes: {
         '/register': (context) => RegisterPage(),
         '/admin': (context) => AdminPage(),
-        '/user': (context) => MainMenuPage(),
+        '/user': (context) => SplashScreen(),
       },
     );
   }

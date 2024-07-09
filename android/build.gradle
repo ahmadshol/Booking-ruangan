@@ -16,3 +16,9 @@ subprojects {
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
+buildscript {
+  dependencies {
+    // Add the dependency for the Google services Gradle plugin
+    classpath 'com.google.gms:google-services:4.4.0'
+  }
+}

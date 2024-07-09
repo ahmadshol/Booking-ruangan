@@ -1,6 +1,6 @@
 {
-    "name": "lapor_kehilangan",
-    "short_name": "lapor_kehilangan",
+    "name": "Aplikasi Pemesanan Ruang Studi",
+    "short_name": "Aplikasi Pemesanan Ruang Studi",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "391531549855",
+    "project_id": "project-6714770374709143243",
+    "storage_bucket": "project-6714770374709143243.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:391531549855:android:b938ae778d5f2d8aa6feaa",
+        "android_client_info": {
+          "package_name": "com.example.Aplikasi_Pemesanan_Ruang_Studi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDT_ep_ZbHJHCmo0nfIaXFYokvynmbEhcE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:391531549855:android:eee6c52e13c79a69a6feaa",
+        "android_client_info": {
+          "package_name": "dev.triyono.projek_contoh"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDT_ep_ZbHJHCmo0nfIaXFYokvynmbEhcE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

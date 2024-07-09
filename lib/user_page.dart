@@ -1,5 +1,3 @@
-// user_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -93,6 +91,16 @@ class _UserPageState extends State<UserPage> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => MainMenuPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.account_circle),
+              title: Text('Akun Saya'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AccountPage()),
                 );
               },
             ),
@@ -241,6 +249,9 @@ class _UserPageState extends State<UserPage> {
 }
 
 class MainMenuPage extends StatelessWidget {
+  final DatabaseReference _roomsReference =
+      FirebaseDatabase.instance.ref().child('rooms');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -283,9 +294,22 @@ class MainMenuPage extends StatelessWidget {
             ),
             ListTile(
               leading: Icon(Icons.info),
-              title: Text('Informasi Lainnya'),
+              title: Text('Informasi Ruangan'),
               onTap: () {
-                // Add navigation to other information pages
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => BookedRoomsPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.account_circle),
+              title: Text('Akun Saya'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AccountPage()),
+                );
               },
             ),
             ListTile(
@@ -322,13 +346,102 @@ class MainMenuPage extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Add navigation to other information pages
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => BookedRoomsPage()),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
               ),
-              child: Text('Informasi Lainnya', style: TextStyle(fontSize: 18)),
+              child: Text('Informasi Ruangan', style: TextStyle(fontSize: 18)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class BookedRoomsPage extends StatelessWidget {
+  final DatabaseReference _roomsReference =
+      FirebaseDatabase.instance.ref().child('rooms');
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Informasi Ruangan'),
+        backgroundColor: Colors.blue,
+      ),
+      body: StreamBuilder(
+        stream: _roomsReference.onValue,
+        builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
+          if (snapshot.hasData &&
+              !snapshot.hasError &&
+              snapshot.data!.snapshot.value != null) {
+            Map data = snapshot.data!.snapshot.value as Map;
+            List rooms = [];
+            data.forEach((index, data) => rooms.add({"key": index, ...data}));
+            List bookedRooms = rooms.where((room) => room['booked']).toList();
+            return ListView.builder(
+              itemCount: bookedRooms.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                  child: ListTile(
+                    title: Text(
+                      bookedRooms[index]['name'],
+                      style: TextStyle(
+                        color: Color(0xFF154360),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Nama: ${bookedRooms[index]['nama']}'),
+                        Text('NIM: ${bookedRooms[index]['nim']}'),
+                        Text('Tanggal: ${bookedRooms[index]['tanggal']}'),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
+    );
+  }
+}
+
+class AccountPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Akun Saya'),
+        backgroundColor: Colors.blue,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Email: ${user?.email ?? 'Tidak ada email'}',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 20),
+            Text(
+              'UID: ${user?.uid ?? 'Tidak ada UID'}',
+              style: TextStyle(fontSize: 18),
             ),
           ],
         ),

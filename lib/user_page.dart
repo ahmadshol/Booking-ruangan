@@ -65,51 +65,13 @@ class _UserPageState extends State<UserPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('User Page'),
+        title: Text('Pesan Ruangan'),
         backgroundColor: Color.fromRGBO(220, 247, 250, 1),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(169, 33, 149, 243),
-              ),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Halaman Utama'),
-              onTap: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => MainMenuPage()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text('Akun Saya'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AccountPage()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
-              onTap: _logout,
-            ),
-          ],
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         ),
       ),
       body: Column(
@@ -257,7 +219,7 @@ class MainMenuPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Main Menu'),
-        backgroundColor: Colors.blue,
+        backgroundColor: Color.fromRGBO(220, 247, 250, 1),
       ),
       drawer: Drawer(
         child: ListView(
@@ -280,26 +242,6 @@ class MainMenuPage extends StatelessWidget {
               title: Text('Halaman Utama'),
               onTap: () {
                 Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.book),
-              title: Text('Pesan Ruang'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => UserPage()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.info),
-              title: Text('Informasi Ruangan'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => BookedRoomsPage()),
-                );
               },
             ),
             ListTile(
@@ -341,7 +283,8 @@ class MainMenuPage extends StatelessWidget {
                 backgroundColor: Colors.blue,
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
               ),
-              child: Text('Pesan Ruang', style: TextStyle(fontSize: 18)),
+              child: Text('Pesan Ruang',
+                  style: TextStyle(color: Colors.white, fontSize: 18)),
             ),
             SizedBox(height: 20),
             ElevatedButton(
@@ -355,7 +298,8 @@ class MainMenuPage extends StatelessWidget {
                 backgroundColor: Colors.blue,
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
               ),
-              child: Text('Informasi Ruangan', style: TextStyle(fontSize: 18)),
+              child: Text('Informasi Ruangan',
+                  style: TextStyle(color: Colors.white, fontSize: 18)),
             ),
           ],
         ),

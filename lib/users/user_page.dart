@@ -272,7 +272,7 @@ class MainMenuPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ElevatedButton(
+            ElevatedButton.icon(
               onPressed: () {
                 Navigator.push(
                   context,
@@ -283,11 +283,12 @@ class MainMenuPage extends StatelessWidget {
                 backgroundColor: Colors.blue,
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
               ),
-              child: Text('Pesan Ruang',
+              icon: Icon(Icons.meeting_room, color: Colors.white),
+              label: Text('Pesan Ruang',
                   style: TextStyle(color: Colors.white, fontSize: 18)),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
+            ElevatedButton.icon(
               onPressed: () {
                 Navigator.push(
                   context,
@@ -298,7 +299,8 @@ class MainMenuPage extends StatelessWidget {
                 backgroundColor: Colors.blue,
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
               ),
-              child: Text('Informasi Ruangan',
+              icon: Icon(Icons.info, color: Colors.white),
+              label: Text('Informasi Ruangan',
                   style: TextStyle(color: Colors.white, fontSize: 18)),
             ),
           ],

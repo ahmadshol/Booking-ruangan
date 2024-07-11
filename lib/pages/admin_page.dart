@@ -1,11 +1,12 @@
 // admin_page.dart
 
+import 'package:Pemesanan_Ruang/pages/home_page.dart';
+import 'package:Pemesanan_Ruang/pages/login_page.dart';
 import 'package:Pemesanan_Ruang/pages/user_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-import 'login_page.dart';
 
 class AdminPage extends StatefulWidget {
   @override
@@ -42,52 +43,11 @@ class _AdminPageState extends State<AdminPage> {
       appBar: AppBar(
         title: Text('Admin Page'),
         backgroundColor: Colors.orange,
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.orange,
-              ),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Halaman Utama'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text('Akun Saya'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AccountPage()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
-              onTap: () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
-                );
-              },
-            ),
-          ],
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         ),
       ),
       body: StreamBuilder(

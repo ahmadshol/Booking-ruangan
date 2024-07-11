@@ -136,7 +136,7 @@ class _UserPageState extends State<UserPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Booking Form'),
+        title: Text('Formulir Pemesanan'),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -205,106 +205,6 @@ class _UserPageState extends State<UserPage> {
             child: Text('Book'),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class MainMenuPage extends StatelessWidget {
-  final DatabaseReference _roomsReference =
-      FirebaseDatabase.instance.ref().child('rooms');
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Main Menu'),
-        backgroundColor: Color.fromRGBO(220, 247, 250, 1),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Halaman Utama'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text('Akun Saya'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AccountPage()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
-              onTap: () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => UserPage()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-              ),
-              icon: Icon(Icons.meeting_room, color: Colors.white),
-              label: Text('Pesan Ruang',
-                  style: TextStyle(color: Colors.white, fontSize: 18)),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => BookedRoomsPage()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-              ),
-              icon: Icon(Icons.info, color: Colors.white),
-              label: Text('Informasi Ruangan',
-                  style: TextStyle(color: Colors.white, fontSize: 18)),
-            ),
-          ],
-        ),
       ),
     );
   }

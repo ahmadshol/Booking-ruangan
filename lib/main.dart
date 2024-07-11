@@ -1,9 +1,9 @@
 // main.dart
 
+import 'package:Pemesanan_Ruang/pages/home_page.dart';
 import 'package:Pemesanan_Ruang/pages/login_page.dart';
 import 'package:Pemesanan_Ruang/pages/register_page.dart';
 import 'package:Pemesanan_Ruang/splash_screen.dart';
-import 'package:Pemesanan_Ruang/pages/admin_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       home: LoginPage(),
       routes: {
         '/register': (context) => RegisterPage(),
-        '/admin': (context) => AdminPage(),
+        '/admin': (context) => HomePage(),
         '/user': (context) => SplashScreen(),
       },
     );

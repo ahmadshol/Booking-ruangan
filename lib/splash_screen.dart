@@ -1,4 +1,4 @@
-import 'package:Pemesanan_Ruang/pages/user_page.dart';
+import 'package:Pemesanan_Ruang/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -43,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen>
       body: Center(
         child: Lottie.asset(
           'assets/loading.json',
-          height: 100, // Ganti dengan path animasi Lottie Anda
+          height: 150, // Ganti dengan path animasi Lottie Anda
           controller: _controller,
           onLoaded: (composition) {
             _controller.forward();

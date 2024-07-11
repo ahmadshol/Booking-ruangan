@@ -1,11 +1,11 @@
 // admin_page.dart
 
-import 'package:Pemesanan_Ruang/users/user_page.dart';
+import 'package:Pemesanan_Ruang/pages/user_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-import '../login/login_page.dart';
+import 'login_page.dart';
 
 class AdminPage extends StatefulWidget {
   @override

@@ -123,6 +123,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
+                obscureText: true,
               ),
               SizedBox(height: 20.0),
               _isLoading

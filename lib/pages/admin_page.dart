@@ -42,7 +42,7 @@ class _AdminPageState extends State<AdminPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Admin Page'),
-        backgroundColor: Colors.orange,
+        backgroundColor: Color.fromARGB(255, 115, 233, 233),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {

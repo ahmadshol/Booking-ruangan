@@ -15,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(seconds: 7),
+      duration: const Duration(seconds: 4),
       vsync: this,
     );
 
@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen>
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
               builder: (context) =>
-                  MainMenuPage()), // Ganti dengan halaman utama Anda
+                  MainMenuPage()),
         );
       }
     });
@@ -43,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen>
       body: Center(
         child: Lottie.asset(
           'assets/loading.json',
-          height: 150, // Ganti dengan path animasi Lottie Anda
+          height: 70,
           controller: _controller,
           onLoaded: (composition) {
             _controller.forward();

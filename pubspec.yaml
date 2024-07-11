@@ -65,6 +65,8 @@ flutter:
   uses-material-design: true
   assets:
     - assets/loading.json
+    - assets/pesan_ruang.png
+    - assets/informasi_ruangan.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

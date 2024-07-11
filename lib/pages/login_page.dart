@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Login'),
-        backgroundColor: Colors.orange,
+        backgroundColor: Colors.blueAccent,
       ),
       body: Center(
         child: Padding(
@@ -86,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.orange),
+                    borderSide: BorderSide(color: Colors.blue),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
@@ -102,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.orange),
+                    borderSide: BorderSide(color: Colors.blue),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
@@ -114,8 +114,8 @@ class _LoginPageState extends State<LoginPage> {
                   : ElevatedButton(
                       onPressed: _login,
                       style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white, 
-                        backgroundColor: Color(0xFFFFA726),
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.orange,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
@@ -135,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Text(
                   'Belum punya akun? Daftar disini',
                   style: TextStyle(
-                    color: Colors.orange,
+                    color: const Color.fromARGB(255, 255, 255, 255),
                     decoration: TextDecoration.underline,
                   ),
                 ),

@@ -12,8 +12,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home Page'),
-        backgroundColor: Colors.orange,
+        title: Text('Halaman Admin'),
+        backgroundColor: Color.fromARGB(255, 121, 222, 240),
       ),
       drawer: Drawer(
         child: ListView(
@@ -116,7 +116,7 @@ class MainMenuPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Main Menu'),
+        title: Text('Home'),
         backgroundColor: Color.fromRGBO(220, 247, 250, 1),
       ),
       drawer: Drawer(
@@ -170,36 +170,48 @@ class MainMenuPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ElevatedButton.icon(
-              onPressed: () {
+            GestureDetector(
+              onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => UserPage()),
                 );
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+              child: Column(
+                children: <Widget>[
+                  Image.asset(
+                    'assets/pesan_ruang.png',
+                    width: 100,
+                    height: 100,
+                  ),
+                  Text(
+                    'Pesan Ruang',
+                    style: TextStyle(fontSize: 18, color: Colors.black),
+                  ),
+                ],
               ),
-              icon: Icon(Icons.meeting_room, color: Colors.white),
-              label: Text('Pesan Ruang',
-                  style: TextStyle(color: Colors.white, fontSize: 18)),
             ),
             SizedBox(height: 20),
-            ElevatedButton.icon(
-              onPressed: () {
+            GestureDetector(
+              onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => BookedRoomsPage()),
                 );
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+              child: Column(
+                children: <Widget>[
+                  Image.asset(
+                    'assets/informasi_ruangan.png', 
+                    width: 100,
+                    height: 100,
+                  ),
+                  Text(
+                    'Informasi Ruangan',
+                    style: TextStyle(fontSize: 18, color: Colors.black),
+                  ),
+                ],
               ),
-              icon: Icon(Icons.info, color: Colors.white),
-              label: Text('Informasi Ruangan',
-                  style: TextStyle(color: Colors.white, fontSize: 18)),
             ),
           ],
         ),

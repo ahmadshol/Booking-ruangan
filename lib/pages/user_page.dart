@@ -14,6 +14,26 @@ class _UserPageState extends State<UserPage> {
   final TextEditingController _namaController = TextEditingController();
   final TextEditingController _nimController = TextEditingController();
   final TextEditingController _tanggalController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
+
+  List rooms = [];
+  List filteredRooms = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(_filterRooms);
+  }
+
+  void _filterRooms() {
+    setState(() {
+      filteredRooms = rooms
+          .where((room) => room['name']
+              .toLowerCase()
+              .contains(_searchController.text.toLowerCase()))
+          .toList();
+    });
+  }
 
   void _bookRoom(String key) {
     String nama = _namaController.text;
@@ -76,6 +96,19 @@ class _UserPageState extends State<UserPage> {
       ),
       body: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                labelText: 'Cari Ruangan',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                prefixIcon: Icon(Icons.search),
+              ),
+            ),
+          ),
           Expanded(
             child: StreamBuilder(
               stream: _roomsReference.onValue,
@@ -84,33 +117,39 @@ class _UserPageState extends State<UserPage> {
                     !snapshot.hasError &&
                     snapshot.data!.snapshot.value != null) {
                   Map data = snapshot.data!.snapshot.value as Map;
-                  List rooms = [];
+                  rooms = [];
                   data.forEach(
                       (index, data) => rooms.add({"key": index, ...data}));
+                  filteredRooms = rooms
+                      .where((room) => room['name']
+                          .toLowerCase()
+                          .contains(_searchController.text.toLowerCase()))
+                      .toList();
                   return ListView.builder(
-                    itemCount: rooms.length,
+                    itemCount: filteredRooms.length,
                     itemBuilder: (context, index) {
                       return Card(
                         margin: EdgeInsets.symmetric(
                             vertical: 8.0, horizontal: 16.0),
                         child: ListTile(
                           title: Text(
-                            rooms[index]['name'],
+                            filteredRooms[index]['name'],
                             style: TextStyle(
                               color: Color(0xFF154360),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          subtitle: rooms[index]['booked']
+                          subtitle: filteredRooms[index]['booked']
                               ? Text('Booked',
                                   style: TextStyle(color: Colors.redAccent))
                               : Text('Available',
                                   style: TextStyle(color: Colors.green)),
-                          trailing: rooms[index]['booked']
+                          trailing: filteredRooms[index]['booked']
                               ? null
                               : ElevatedButton(
                                   onPressed: () {
-                                    _showBookingDialog(rooms[index]['key']);
+                                    _showBookingDialog(
+                                        filteredRooms[index]['key']);
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.blue,
@@ -208,7 +247,16 @@ class _UserPageState extends State<UserPage> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_filterRooms);
+    _searchController.dispose();
+    super.dispose();
+  }
 }
+
+
 
 class BookedRoomsPage extends StatelessWidget {
   final DatabaseReference _roomsReference =

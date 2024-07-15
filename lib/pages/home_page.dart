@@ -167,8 +167,8 @@ class MainMenuPage extends StatelessWidget {
         ),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             GestureDetector(
               onTap: () {
@@ -177,21 +177,31 @@ class MainMenuPage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => UserPage()),
                 );
               },
-              child: Column(
-                children: <Widget>[
-                  Image.asset(
-                    'assets/pesan_ruang.png',
-                    width: 100,
-                    height: 100,
-                  ),
-                  Text(
-                    'Pesan Ruang',
-                    style: TextStyle(fontSize: 18, color: Colors.black),
-                  ),
-                ],
+              child: Container(
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Image.asset(
+                      'assets/pesan_ruang.png', // Path to your image
+                      width: 50,
+                      height: 50,
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Pesan Ruang',
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: 20),
             GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -199,18 +209,29 @@ class MainMenuPage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => BookedRoomsPage()),
                 );
               },
-              child: Column(
-                children: <Widget>[
-                  Image.asset(
-                    'assets/informasi_ruangan.png', 
-                    width: 100,
-                    height: 100,
-                  ),
-                  Text(
-                    'Informasi Ruangan',
-                    style: TextStyle(fontSize: 18, color: Colors.black),
-                  ),
-                ],
+              child: Container(
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Image.asset(
+                      'assets/informasi_ruangan.png',
+                      width: 50,
+                      height: 50,
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Informasi Ruangan',
+                      style: TextStyle(fontSize: 12, color: Colors.white),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'register_page.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-
 
 class LoginPage extends StatefulWidget {
   @override
@@ -13,73 +11,45 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
 
-  @override
-  void initState() {
-    super.initState();
-    _handleRedirect();
-  }
-
-  Future<void> _handleRedirect() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      try {
-        final UserCredential userCredential =
-            await FirebaseAuth.instance.getRedirectResult();
-        if (userCredential.user != null) {
-          // User successfully signed in.
-          _navigateToNextPage(userCredential.user!);
-        }
-      } catch (e) {
-        // Handle error.
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login gagal')),
-        );
-      }
-    }
-  }
-
-  Future<void> _signInWithGoogle() async {
+  Future<void> _login() async {
     setState(() {
       _isLoading = true;
     });
+
     try {
-      GoogleSignIn googleSignIn = GoogleSignIn();
-      GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-      if (googleUser != null) {
-        GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-        OAuthCredential credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth.accessToken,
-          idToken: googleAuth.idToken,
-        );
-        await FirebaseAuth.instance.signInWithCredential(credential);
-        _navigateToNextPage(FirebaseAuth.instance.currentUser!);
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _usernameController.text,
+        password: _passwordController.text,
+      );
+
+      DatabaseReference userRef = FirebaseDatabase.instance
+          .ref()
+          .child('users')
+          .child(userCredential.user!.uid);
+      DatabaseEvent event = await userRef.once();
+      Map<dynamic, dynamic>? userData =
+          event.snapshot.value as Map<dynamic, dynamic>?;
+
+      if (userData != null) {
+        if (userData['role'] == 'admin') {
+          Navigator.pushReplacementNamed(context, '/admin');
+        } else {
+          Navigator.pushReplacementNamed(context, '/user');
+        }
       }
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Login gagal')),
+        SnackBar(content: Text(e.message ?? 'Login gagal')),
       );
     } finally {
       setState(() {
         _isLoading = false;
       });
-    }
-  }
-
-  void _navigateToNextPage(User user) async {
-    DatabaseReference userRef =
-        FirebaseDatabase.instance.ref().child('users').child(user.uid);
-    DatabaseEvent event = await userRef.once();
-    Map<dynamic, dynamic>? userData =
-        event.snapshot.value as Map<dynamic, dynamic>?;
-
-    if (userData != null) {
-      if (userData['role'] == 'admin') {
-        Navigator.pushReplacementNamed(context, '/admin');
-      } else {
-        Navigator.pushReplacementNamed(context, '/user');
-      }
     }
   }
 
@@ -106,10 +76,43 @@ class _LoginPageState extends State<LoginPage> {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 20.0),
+              TextField(
+                controller: _usernameController,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20.0),
+              TextField(
+                controller: _passwordController,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+                obscureText: true,
+              ),
+              SizedBox(height: 20.0),
               _isLoading
                   ? CircularProgressIndicator()
                   : ElevatedButton(
-                      onPressed: _signInWithGoogle,
+                      onPressed: _login,
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
                         backgroundColor: Colors.orange,
@@ -119,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                         padding: EdgeInsets.symmetric(
                             horizontal: 30.0, vertical: 15.0),
                       ),
-                      child: Text('Sign in with Google'),
+                      child: Text('Login'),
                     ),
               SizedBox(height: 20.0),
               GestureDetector(

@@ -12,26 +12,12 @@
           "package_name": "com.example.Aplikasi_Pemesanan_Ruang_Studi"
         }
       },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDT_ep_ZbHJHCmo0nfIaXFYokvynmbEhcE"
+      "oauth_client": [
+         {
+          "client_id": "391531549855-g1jbadqd4l32u0qvlgo09nl71k7abhgv.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:391531549855:android:eee6c52e13c79a69a6feaa",
-        "android_client_info": {
-          "package_name": "dev.triyono.projek_contoh"
-        }
-      },
-      "oauth_client": [],
       "api_key": [
         {
           "current_key": "AIzaSyDT_ep_ZbHJHCmo0nfIaXFYokvynmbEhcE"

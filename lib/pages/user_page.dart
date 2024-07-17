@@ -1,8 +1,7 @@
 import 'package:Pemesanan_Ruang/pages/login_page.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class UserPage extends StatefulWidget {
   @override
@@ -21,24 +20,11 @@ class _UserPageState extends State<UserPage> {
 
   List rooms = [];
   List filteredRooms = [];
-  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
   @override
   void initState() {
     super.initState();
     _searchController.addListener(_filterRooms);
-    _initializeNotifications();
-    _checkRoomStatusPeriodically();
-  }
-
-  void _initializeNotifications() {
-    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    var initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
-    var initializationSettingsIOS = IOSInitializationSettings();
-    var initializationSettings = InitializationSettings(
-        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-    flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
   void _filterRooms() {
@@ -72,7 +58,6 @@ class _UserPageState extends State<UserPage> {
         'end_time': endTime,
       });
       _clearControllers();
-      _scheduleRoomReset(key, tanggal, endTime);
     } else {
       showDialog(
         context: context,
@@ -106,37 +91,6 @@ class _UserPageState extends State<UserPage> {
       context,
       MaterialPageRoute(builder: (context) => LoginPage()),
     );
-  }
-
-  void _scheduleRoomReset(String key, String tanggal, String endTime) {
-    DateTime now = DateTime.now();
-    DateTime endDateTime = DateTime.parse('$tanggal $endTime:00');
-    Duration duration = endDateTime.difference(now);
-
-    if (duration > Duration.zero) {
-      Future.delayed(duration, () {
-        _roomsReference.child(key).update({'booked': false});
-      });
-    }
-  }
-
-  void _checkRoomStatusPeriodically() {
-    Future.delayed(Duration(minutes: 1), () {
-      _roomsReference.once().then((DatabaseEvent event) {
-        Map data = event.snapshot.value as Map;
-        data.forEach((key, value) {
-          if (value['booked'] == true) {
-            DateTime now = DateTime.now();
-            DateTime endDateTime =
-                DateTime.parse('${value['tanggal']} ${value['end_time']}:00');
-            if (now.isAfter(endDateTime)) {
-              _roomsReference.child(key).update({'booked': false});
-            }
-          }
-        });
-      });
-      _checkRoomStatusPeriodically();
-    });
   }
 
   @override
@@ -285,7 +239,7 @@ class _UserPageState extends State<UserPage> {
               TextField(
                 controller: _startTimeController,
                 decoration: InputDecoration(
-                  labelText: 'Waktu Mulai',
+                  labelText: 'Jam Mulai',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
@@ -297,8 +251,7 @@ class _UserPageState extends State<UserPage> {
                   );
                   if (pickedTime != null) {
                     setState(() {
-                      _startTimeController.text =
-                          "${pickedTime.hour}:${pickedTime.minute}";
+                      _startTimeController.text = pickedTime.format(context);
                     });
                   }
                 },
@@ -307,7 +260,7 @@ class _UserPageState extends State<UserPage> {
               TextField(
                 controller: _endTimeController,
                 decoration: InputDecoration(
-                  labelText: 'Waktu Selesai',
+                  labelText: 'Jam Selesai',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
@@ -319,8 +272,7 @@ class _UserPageState extends State<UserPage> {
                   );
                   if (pickedTime != null) {
                     setState(() {
-                      _endTimeController.text =
-                          "${pickedTime.hour}:${pickedTime.minute}";
+                      _endTimeController.text = pickedTime.format(context);
                     });
                   }
                 },
@@ -341,12 +293,19 @@ class _UserPageState extends State<UserPage> {
               Navigator.of(context).pop();
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.orange,
+              backgroundColor: Colors.blue,
             ),
             child: Text('Pesan'),
           ),
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_filterRooms);
+    _searchController.dispose();
+    super.dispose();
   }
 }

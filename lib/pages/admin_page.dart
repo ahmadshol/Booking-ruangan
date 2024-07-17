@@ -1,5 +1,3 @@
-// admin_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -30,6 +28,31 @@ class _AdminPageState extends State<AdminPage> {
 
   void _emptyRoom(String key) {
     _roomsReference.child(key).update({'booked': false});
+  }
+
+  void _checkRoomStatusPeriodically() {
+    Future.delayed(Duration(minutes: 1), () {
+      _roomsReference.once().then((DatabaseEvent event) {
+        Map data = event.snapshot.value as Map;
+        data.forEach((key, value) {
+          if (value['booked'] == true) {
+            DateTime now = DateTime.now();
+            DateTime endDateTime =
+                DateTime.parse('${value['tanggal']} ${value['end_time']}:00');
+            if (now.isAfter(endDateTime)) {
+              _roomsReference.child(key).update({'booked': false});
+            }
+          }
+        });
+      });
+      _checkRoomStatusPeriodically();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _checkRoomStatusPeriodically();
   }
 
   @override
@@ -68,14 +91,25 @@ class _AdminPageState extends State<AdminPage> {
                       ),
                     ),
                     subtitle: rooms[index]['booked']
-                        ? Text(
-                            'Dipesan oleh: ${rooms[index]['nama']} (${rooms[index]['nim']})\n'
-                            'Tanggal: ${rooms[index]['tanggal']}\n'
-                            'Waktu: ${rooms[index]['start_time']} - ${rooms[index]['end_time']}',
-                            style: TextStyle(color: Colors.redAccent),
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Booked by: ${rooms[index]['nama']} (${rooms[index]['nim']})',
+                                style: TextStyle(color: Colors.redAccent),
+                              ),
+                              Text(
+                                'Start Time: ${rooms[index]['start_time']}',
+                                style: TextStyle(color: Colors.redAccent),
+                              ),
+                              Text(
+                                'End Time: ${rooms[index]['end_time']}',
+                                style: TextStyle(color: Colors.redAccent),
+                              ),
+                            ],
                           )
                         : Text(
-                            'Tersedia',
+                            'Available',
                             style: TextStyle(color: Colors.green),
                           ),
                     trailing: Row(

@@ -1,12 +1,7 @@
 // admin_page.dart
 
-import 'package:Pemesanan_Ruang/pages/home_page.dart';
-import 'package:Pemesanan_Ruang/pages/login_page.dart';
-import 'package:Pemesanan_Ruang/pages/user_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
-
 
 class AdminPage extends StatefulWidget {
   @override
@@ -74,11 +69,13 @@ class _AdminPageState extends State<AdminPage> {
                     ),
                     subtitle: rooms[index]['booked']
                         ? Text(
-                            'Booked by: ${rooms[index]['nama']} (${rooms[index]['nim']})',
+                            'Dipesan oleh: ${rooms[index]['nama']} (${rooms[index]['nim']})\n'
+                            'Tanggal: ${rooms[index]['tanggal']}\n'
+                            'Waktu: ${rooms[index]['start_time']} - ${rooms[index]['end_time']}',
                             style: TextStyle(color: Colors.redAccent),
                           )
                         : Text(
-                            'Available',
+                            'Tersedia',
                             style: TextStyle(color: Colors.green),
                           ),
                     trailing: Row(

@@ -15,16 +15,14 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(seconds: 4),
+      duration: const Duration(seconds: 2),
       vsync: this,
     );
 
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-              builder: (context) =>
-                  MainMenuPage()),
+          MaterialPageRoute(builder: (context) => MainMenuPage()),
         );
       }
     });

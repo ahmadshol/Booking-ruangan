@@ -14,6 +14,8 @@ class _UserPageState extends State<UserPage> {
   final TextEditingController _namaController = TextEditingController();
   final TextEditingController _nimController = TextEditingController();
   final TextEditingController _tanggalController = TextEditingController();
+  final TextEditingController _startTimeController = TextEditingController();
+  final TextEditingController _endTimeController = TextEditingController();
   final TextEditingController _searchController = TextEditingController();
 
   List rooms = [];
@@ -39,13 +41,21 @@ class _UserPageState extends State<UserPage> {
     String nama = _namaController.text;
     String nim = _nimController.text;
     String tanggal = _tanggalController.text;
+    String startTime = _startTimeController.text;
+    String endTime = _endTimeController.text;
 
-    if (nama.isNotEmpty && nim.isNotEmpty && tanggal.isNotEmpty) {
+    if (nama.isNotEmpty &&
+        nim.isNotEmpty &&
+        tanggal.isNotEmpty &&
+        startTime.isNotEmpty &&
+        endTime.isNotEmpty) {
       _roomsReference.child(key).update({
         'booked': true,
         'nama': nama,
         'nim': nim,
         'tanggal': tanggal,
+        'start_time': startTime,
+        'end_time': endTime,
       });
       _clearControllers();
     } else {
@@ -71,6 +81,8 @@ class _UserPageState extends State<UserPage> {
     _namaController.clear();
     _nimController.clear();
     _tanggalController.clear();
+    _startTimeController.clear();
+    _endTimeController.clear();
   }
 
   void _logout() async {
@@ -140,9 +152,9 @@ class _UserPageState extends State<UserPage> {
                             ),
                           ),
                           subtitle: filteredRooms[index]['booked']
-                              ? Text('Booked',
+                              ? Text('Sudah Dipesan',
                                   style: TextStyle(color: Colors.redAccent))
-                              : Text('Available',
+                              : Text('Tersedia',
                                   style: TextStyle(color: Colors.green)),
                           trailing: filteredRooms[index]['booked']
                               ? null
@@ -154,7 +166,7 @@ class _UserPageState extends State<UserPage> {
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.blue,
                                   ),
-                                  child: Text('Book'),
+                                  child: Text('Pesan'),
                                 ),
                         ),
                       );
@@ -223,12 +235,54 @@ class _UserPageState extends State<UserPage> {
                   }
                 },
               ),
+              SizedBox(height: 10),
+              TextField(
+                controller: _startTimeController,
+                decoration: InputDecoration(
+                  labelText: 'Jam Mulai',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+                onTap: () async {
+                  TimeOfDay? pickedTime = await showTimePicker(
+                    context: context,
+                    initialTime: TimeOfDay.now(),
+                  );
+                  if (pickedTime != null) {
+                    setState(() {
+                      _startTimeController.text = pickedTime.format(context);
+                    });
+                  }
+                },
+              ),
+              SizedBox(height: 10),
+              TextField(
+                controller: _endTimeController,
+                decoration: InputDecoration(
+                  labelText: 'Jam Selesai',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+                onTap: () async {
+                  TimeOfDay? pickedTime = await showTimePicker(
+                    context: context,
+                    initialTime: TimeOfDay.now(),
+                  );
+                  if (pickedTime != null) {
+                    setState(() {
+                      _endTimeController.text = pickedTime.format(context);
+                    });
+                  }
+                },
+              ),
             ],
           ),
         ),
         actions: <Widget>[
           TextButton(
-            child: Text('Cancel'),
+            child: Text('Batal'),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -241,7 +295,7 @@ class _UserPageState extends State<UserPage> {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.blue,
             ),
-            child: Text('Book'),
+            child: Text('Pesan'),
           ),
         ],
       ),
@@ -255,8 +309,6 @@ class _UserPageState extends State<UserPage> {
     super.dispose();
   }
 }
-
-
 
 class BookedRoomsPage extends StatelessWidget {
   final DatabaseReference _roomsReference =
